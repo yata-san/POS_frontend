@@ -1,4 +1,4 @@
-"use client";
+import { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import React from "react";
@@ -6,7 +6,8 @@ import React from "react";
 const CartContext = global.CartContext || React.createContext({ cart: [], setCart: () => {} });
 global.CartContext = CartContext;
 
-export default function ProductPage() {
+function ProductPage() {
+  "use client";
   const router = useRouter();
   const searchParams = useSearchParams();
   const code = searchParams.get("code");
@@ -100,5 +101,14 @@ export default function ProductPage() {
         )}
       </div>
     </div>
+  );
+}
+
+// サーバーコンポーネントとしてエクスポート
+export default function Page() {
+  return (
+    <Suspense>
+      <ProductPage />
+    </Suspense>
   );
 } 
